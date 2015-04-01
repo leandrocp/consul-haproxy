@@ -11,4 +11,4 @@ ADD haproxy.ctmpl /haproxy.ctmpl
 EXPOSE 80
 
 ENTRYPOINT ["/consul-template"]
-CMD ["-consul", "consul:8500", "-template", "/haproxy.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy restart"]
+CMD ["-consul", "consul:8500", "-template", "/haproxy.ctmpl:/etc/haproxy/haproxy.cfg:service haproxy reload"]
