@@ -1,6 +1,5 @@
 global
-    daemon
-    maxconn 256
+    maxconn {{or (key "service/haproxy/maxconn") 256}}
 
 defaults
     mode http
@@ -10,7 +9,18 @@ defaults
 
     stats enable
     stats uri /?stats
+    monitor-uri /health_check
+    
+frontend www
+    bind *:80
 
-listen http-in
-    bind *:80{{range service "hellodb"}}
-    server {{.ID}} {{.Address}}:{{.Port}}{{end}}
+{{ range services }}
+    acl host_{{ .Name }} hdr(host) -i {{ .Name }}.{{ or (env "HAPROXY_DOMAIN") "haproxy.service.consul" }}
+    use_backend {{ .Name }}_backend if host_{{ .Name }}
+{{ end }}
+
+{{ range services }}
+backend {{ .Name }}_backend
+{{ range service .Name }}
+server {{ .Node }} {{ .Address }}:{{ .Port }}{{ end }}
+{{ end }}
