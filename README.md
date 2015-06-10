@@ -1,8 +1,8 @@
 # Consul-template haproxy image
 
-Based on https://registry.hub.docker.com/u/cargonauts/consul-haproxy/
+Based on [cargonauts/consul-haproxy](https://registry.hub.docker.com/u/cargonauts/consul-haproxy/)
 
-consul-template 0.10.0
+Updated to consul-template [0.10.0](https://github.com/hashicorp/consul-template/releases/tag/v0.10.0)
 
 ## How to use
 ```
